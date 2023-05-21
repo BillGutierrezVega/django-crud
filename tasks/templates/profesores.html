@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profesores</title>
+</head>
+<body>
+    <h1>Profesores</h1>
+    <form action="{% url 'create_teacher' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Escribe el nombre">
+        <input type="text" name="last_name" placeholder="Escribe el apellido">
+        <input type="number" name="sueldo" placeholder="escribe el sueldo">
+        <button>Save</button>
+    </form>
+
+    
+    {% for profesor in profesores %}
+        <h2>{{ profesor.name }}</h2>
+        <p>{{ profesor.last_name }}</p>
+        <p>{{ profesor.sueldo }}</p>
+        <form action="{% url 'delete_profesor' profesor.id %}" method="POST">
+            {% csrf_token %}
+            <button>Delete</button>
+        </form>
+    {% empty %}
+        <h2>Ningun profesor registrado</h2>
+    {% endfor %}
+        
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+</head>
+<body>
+    <h1>Poductos aqui</h1>
+    <form action="{% url 'create_product' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Nombre del producto">
+        <textarea name="description" rows="10" placeholder="Escribe aqui la descripcion"></textarea>
+        <input type="numbre" name="price" placeholder="precio del producto">
+        <input type="file" name="image">
+        <button>Guardar</button>
+    </form>
+
+    
+    {% for producto in productos %}
+    <img src="{{ producto.image.url }}" alt="{{ producto.name }}">
+    <h2>{{ producto.name }}</h2>
+    <h3>{{ producto.description }}</h3>
+    <p>{{ producto.price }}</p>
+    <form action="{% url 'delete_product' producto.id %}" method="POST">
+        {% csrf_token %}
+        <button>Delete</button>
+    </form>
+    {% empty %}
+        <h2>Ningún producto registrado</h2>
+    {% endfor %}
+        
+</body>
+</html>
