@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Profesor, Task, User, Product
 
 
@@ -10,7 +11,7 @@ def task(request):
 def create_task(request):
     task = Task(title=request.POST['title'], description=request.POST['description'])
     task.save()
-    return redirect('/tasks/')
+    return redirect(reverse('tareas:task'))
 
 def delete_task(_request, task_id):
     task = Task.objects.get(id=task_id)

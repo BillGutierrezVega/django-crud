@@ -1,33 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profesores</title>
-</head>
-<body>
-    <h1>Profesores</h1>
-    <form action="{% url 'create_teacher' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="name" placeholder="Escribe el nombre">
-        <input type="text" name="last_name" placeholder="Escribe el apellido">
-        <input type="number" name="sueldo" placeholder="escribe el sueldo">
-        <button>Save</button>
-    </form>
+{% extends 'layout.html' %}
 
-    
-    {% for profesor in profesores %}
-        <h2>{{ profesor.name }}</h2>
-        <p>{{ profesor.last_name }}</p>
-        <p>{{ profesor.sueldo }}</p>
-        <form action="{% url 'delete_profesor' profesor.id %}" method="POST">
-            {% csrf_token %}
-            <button>Delete</button>
-        </form>
-    {% empty %}
-        <h2>Ningun profesor registrado</h2>
-    {% endfor %}
-        
-</body>
-</html>
+
+{% block title %}
+    Profesores
+{% endblock title %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1 class="display-6 fw-bold text-white text-center">Profesores</h1>
+                <form action="{% url 'tareas:create_teacher' %}" method="POST" class="card card-body bg-body-secondary">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Escribe el nombre" class="form-control mb-2">
+                    <input type="text" name="last_name" placeholder="Escribe el apellido" class="form-control mb-2">
+                    <input type="number" name="sueldo" placeholder="Escribe el salario" class="form-control mb-2">
+                    <button class="btn btn-success mt-2">Save</button>
+                </form>
+
+                
+                {% for profesor in profesores %}
+                    <div class="card card-body text-black mt-2 d-flex flex-row justify-content-between">
+                        <div>
+                            <h2>{{ profesor.name }}</h2>
+                            <p>{{ profesor.last_name }}</p>
+                            <p>{{ profesor.sueldo }}</p>
+                        </div>
+                        <form action="{% url 'tareas:delete_profesor' profesor.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-danger my-5">Delete</button>
+                        </form>
+                    </div>
+                {% empty %}
+                    <h2>Ningun profesor registrado</h2>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
